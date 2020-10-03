@@ -11,9 +11,8 @@ public class SqlService {
     @Autowired 
     private JdbcTemplate jtm;
 
-    public void LoadSuccessMetrics(String csvFile) {
-		String stmt = SqlStatement.MetricsTable + "('" + csvFile + "')";	
-		jtm.execute(stmt);
-	}
+    public void ExecuteSql(String stmt) {
+      jtm.execute(stmt);
+	  }
     
 }

@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sonatype.cs.nxmetrics.service.FilenameService;
 import org.sonatype.cs.nxmetrics.service.SqlService;
+import org.sonatype.cs.nxmetrics.util.SqlStatement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.core.annotation.Order;
@@ -43,7 +44,10 @@ public class LoadSuccessMetricsRunner implements CommandLineRunner {
                 log.error(firstLine);
             } 
             else {
-                sqlService.LoadSuccessMetrics(csvFileName.toString());
+
+                String stmt = SqlStatement.MetricsTable + "('" + csvFileName + "')";	
+
+                sqlService.ExecuteSql(stmt);
 
                 FilenameService.successMetricsReportExists = true;
 
