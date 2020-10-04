@@ -1,5 +1,22 @@
-{"properties": [{
-  "name": "csvfile.successmetrics",
-  "type": "java.lang.String",
-  "description": "A description for 'csvfile.successmetrics'"
-}]}
+{"properties": [
+  {
+    "name": "csvfile.successmetrics",
+    "type": "java.lang.String",
+    "description": "A description for 'csvfile.successmetrics'"
+  },
+  {
+    "name": "data.successmetrics",
+    "type": "java.lang.String",
+    "description": "A description for 'data.successmetrics'"
+  },
+  {
+    "name": "data.applicationevaluationsmetrics",
+    "type": "java.lang.String",
+    "description": "A description for 'data.applicationevaluationsmetrics'"
+  },
+  {
+    "name": "data.policyviolationsmetrics",
+    "type": "java.lang.String",
+    "description": "A description for 'data.policyviolationsmetrics'"
+  }
+]}

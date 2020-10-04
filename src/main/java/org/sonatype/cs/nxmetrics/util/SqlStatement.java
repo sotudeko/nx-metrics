@@ -73,5 +73,20 @@ public class SqlStatement {
 			"waivedCountSecuritySevere " +
 			" from csvread ";
 
+	public static String PolicyViolationsTables = "DROP TABLE IF EXISTS POLICY_VIOLATION;" + 
+			"CREATE TABLE POLICY_VIOLATION (" + 
+			"  policy_name VARCHAR(250) NOT NULL," + 
+			"  application_name VARCHAR(250) NOT NULL," + 
+			"  open_time VARCHAR(250) DEFAULT NULL," + 
+			"  component VARCHAR(250) DEFAULT NULL," +
+			"  stage VARCHAR(250) DEFAULT NULL) " +
+			" AS SELECT policyname, applicationname, parsedatetime(opentime, 'yyyy-MM-dd', 'en'), component, stage FROM CSVREAD ";
+	
+	public static String ApplicationEvaluationsTable = "DROP TABLE IF EXISTS APPLICATION_EVALUATION;" + 
+			"CREATE TABLE APPLICATION_EVALUATION (" + 
+			"  application_name VARCHAR(250) NOT NULL," + 
+			"  evaluation_date VARCHAR(250) DEFAULT NULL," + 
+			"  stage VARCHAR(250) DEFAULT NULL) " +
+			" AS SELECT applicationname, parsedatetime(evaluationdate, 'yyyy-MM-dd', 'en'), stage FROM CSVREAD ";
     
 }

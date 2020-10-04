@@ -10,14 +10,14 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
-@Order(value=1)
+@Order(value = 3)
 @Component
-public class LoadSuccessMetricsRunner implements CommandLineRunner {
+public class LoadPolicyViolationsRunner implements CommandLineRunner {
 
-    private static final Logger log = LoggerFactory.getLogger(LoadSuccessMetricsRunner.class);
-    private static final String fileHeader = "applicationId,applicationName,applicationPublicId,";
+    private static final Logger log = LoggerFactory.getLogger(LoadPolicyViolationsRunner.class);
+    private static final String fileHeader = "PolicyName,ApplicationName,OpenTime,Component,Stage";
 
-    @Value("${data.successmetrics}")
+    @Value("${data.policyviolationsmetrics}")
     private String metricsFile;
 
     @Autowired
@@ -26,15 +26,13 @@ public class LoadSuccessMetricsRunner implements CommandLineRunner {
     @Override
 	public void run(String... args) throws Exception {
 
-        log.info("In: LoadSuccessMetricsRunner");
+        log.info("In LoadPolicyViolationsRunner");
         
-        String stmt = SqlStatement.MetricsTable + "('" + metricsFile + "')";	
+        String stmt = SqlStatement.PolicyViolationsTables + "('" + metricsFile + "')";	
 
         if (fileService.isDataValid(metricsFile, fileHeader)) {
             fileService.loadFile(metricsFile, stmt);
         }
-        else {
-            System.exit(-1);
-        }
-	}
+    }
+    
 }
