@@ -10,13 +10,22 @@ iquser=${2}
 iqpwd=${3}
 payloadfile=${4}
 
+datadir="./datafiles"
+
+if [ -d "${datadir}" ]; then
+rm -rf "${datadir}"
+fi
+
+mkdir ${datadir} && cd ${datadir} && pwd
+
 which python3 >/dev/null 2>&1
 
 if [ $? -eq 0 ]; then
   
-python3 create-success-metrics-data.py ${iqurl} ${iquser} ${iqpwd} ${payloadfile}
-python3 create-application-evaluations-data.py ${iqurl} ${iquser} ${iqpwd} 
-python3 create-policy-violations-data.py ${iqurl} ${iquser} ${iqpwd} 
+python3 ../create-success-metrics-data.py ${iqurl} ${iquser} ${iqpwd} ../${payloadfile}
+python3 ../create-application-evaluations-data.py ${iqurl} ${iquser} ${iqpwd} 
+python3 ../create-policy-violations-data.py ${iqurl} ${iquser} ${iqpwd} 
+python3 ../create-components-quarantined.py ${iqurl} ${iquser} ${iqpwd}
 
 else
 

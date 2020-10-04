@@ -18,5 +18,10 @@
     "name": "data.policyviolationsmetrics",
     "type": "java.lang.String",
     "description": "A description for 'data.policyviolationsmetrics'"
+  },
+  {
+    "name": "data.componentquarantinemetrics",
+    "type": "java.lang.String",
+    "description": "A description for 'data.componentquarantinemetrics'"
   }
 ]}

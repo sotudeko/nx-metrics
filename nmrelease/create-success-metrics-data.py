@@ -10,6 +10,8 @@ iqpwd = sys.argv[3]
 payloadFile = sys.argv[4]
 
 
+csvfile = 'successmetrics.csv'
+
 def get_payload():
 	with open(payloadFile) as rd:
 		content = rd.read()
@@ -20,11 +22,11 @@ def get_metrics(payload):
 	iqheader = {'Content-Type':'application/json', 'Accept':'text/csv'}
 
 	req = requests.post("{}/api/v2/reports/metrics".format(iqurl), auth=(iquser, iqpwd), verify=False, headers=iqheader, data=payload)
-	with open(r'successmetrics.csv', 'wb') as fd:
+	with open(csvfile, 'wb') as fd:
             for chunk in req.iter_content(chunk_size=1024):
                 fd.write(chunk)
 
-	print('successmetrics.csv')
+	print(csvfile)
 	return
 
 

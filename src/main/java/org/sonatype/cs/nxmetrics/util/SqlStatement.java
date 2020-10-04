@@ -88,5 +88,15 @@ public class SqlStatement {
 			"  evaluation_date VARCHAR(250) DEFAULT NULL," + 
 			"  stage VARCHAR(250) DEFAULT NULL) " +
 			" AS SELECT applicationname, parsedatetime(evaluationdate, 'yyyy-MM-dd', 'en'), stage FROM CSVREAD ";
-    
+ 
+	public static String ComponentsQuarantineTables = "DROP TABLE IF EXISTS COMPONENT_QUARANTINE;" + 
+			"CREATE TABLE COMPONENT_QUARANTINE (" + 
+			"  repository VARCHAR(250) NOT NULL," +
+			"  format VARCHAR(250) NOT NULL," + 
+			"  packageUrl VARCHAR(250) NOT NULL," + 
+			"  quarantineTime VARCHAR(250) DEFAULT NULL," + 
+			"  policyName VARCHAR(250) DEFAULT NULL," +
+			"  threatLevel VARCHAR(250) DEFAULT NULL) " +
+			" AS SELECT repository, format, packageUrl, parsedatetime(quarantineTime, 'yyyy-MM-dd', 'en'), policyName, threatLevel FROM CSVREAD ";
+
 }

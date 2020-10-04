@@ -10,14 +10,14 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
-@Order(value = 2)
+@Order(value = 4)
 @Component
-public class LoadApplicationEvaluationsRunner implements CommandLineRunner {
+public class LoadComponentsQuarantineRunner implements CommandLineRunner {
 
-    private static final Logger log = LoggerFactory.getLogger(LoadApplicationEvaluationsRunner.class);
-    private static final String fileHeader = "ApplicationName,EvaluationDate,Stage";
+    private static final Logger log = LoggerFactory.getLogger(LoadComponentsQuarantineRunner.class);
+    private static final String fileHeader = "Repository,Format,PackageUrl,QuarantineTime,PolicyName,ThreatLevel";
 
-    @Value("${data.applicationevaluationsmetrics}")
+    @Value("${data.componentquarantinemetrics}")
     private String metricsFile;
 
     @Autowired
@@ -26,12 +26,13 @@ public class LoadApplicationEvaluationsRunner implements CommandLineRunner {
     @Override
 	public void run(String... args) throws Exception {
 
-        log.info("In ApplicationEvaluationsMetricsRunner");
+        log.info("In LoadComponentsQuarantineRunner");
         
-        String stmt = SqlStatement.ApplicationEvaluationsTable;	
+        String stmt = SqlStatement.ComponentsQuarantineTables;	
 
         if (fileService.isDataValid(metricsFile, fileHeader)) {
             fileService.loadFile(metricsFile, stmt);
         }
     }
+    
 }

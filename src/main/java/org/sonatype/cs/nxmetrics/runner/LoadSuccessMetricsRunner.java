@@ -28,7 +28,7 @@ public class LoadSuccessMetricsRunner implements CommandLineRunner {
 
         log.info("In: LoadSuccessMetricsRunner");
         
-        String stmt = SqlStatement.MetricsTable + "('" + metricsFile + "')";	
+        String stmt = SqlStatement.MetricsTable;	
 
         if (fileService.isDataValid(metricsFile, fileHeader)) {
             fileService.loadFile(metricsFile, stmt);

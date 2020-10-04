@@ -8,6 +8,8 @@ iqurl = sys.argv[1]
 iquser = sys.argv[2]
 iqpwd = sys.argv[3]
 
+jsonfile = 'applicationevaluations.json'
+csvfile = 'applicationevaluations.csv'
 
 def get_metrics():
 	req = requests.get('{}/api/v2/reports/applications'.format(iqurl), auth=(iquser, iqpwd), verify=False)
@@ -27,7 +29,7 @@ def getApplicationName(urlPath):
 
 def writeToCsvFile(applicationEvaluations):
 
-	with open('applicationevaluations.csv', 'w') as fd:
+	with open(csvfile, 'w') as fd:
 			fd.write("ApplicationName,EvaluationDate,Stage\n")
 			for applicationEvaluation in applicationEvaluations:
 				stage = applicationEvaluation["stage"]
@@ -37,19 +39,20 @@ def writeToCsvFile(applicationEvaluations):
 				line = applicationName + "," + evaluationDate + "," + stage + "\n"
 				fd.write(line)
 	
-	print('applicationevaluations.json')
 	return
 
 
 def main():
 	applicationEvaluations = get_metrics()
 
-	with open("applicationevaluations.json", 'w') as fd:
+	with open(jsonfile, 'w') as fd:
     		json.dump(applicationEvaluations, fd)
 	
+	print(jsonfile)
 
 	writeToCsvFile(applicationEvaluations)
-	print('applicationevaluations.csv')
+
+	print(csvfile)
 
 
 				

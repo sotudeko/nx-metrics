@@ -28,7 +28,7 @@ public class LoadPolicyViolationsRunner implements CommandLineRunner {
 
         log.info("In LoadPolicyViolationsRunner");
         
-        String stmt = SqlStatement.PolicyViolationsTables + "('" + metricsFile + "')";	
+        String stmt = SqlStatement.PolicyViolationsTables;	
 
         if (fileService.isDataValid(metricsFile, fileHeader)) {
             fileService.loadFile(metricsFile, stmt);

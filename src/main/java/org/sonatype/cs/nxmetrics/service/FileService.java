@@ -9,19 +9,30 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sonatype.cs.nxmetrics.util.SqlStatement;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 @Service
 public class FileService {
 
 	private static final Logger log = LoggerFactory.getLogger(FileService.class);
-
+	
+	@Value("${data.dir}")
+	private String datadir;
+	
 	@Autowired
 	private SqlService sqlService;
 	
 	public boolean loadFile(String filename, String stmt) throws IOException {
-		log.info("Reading data file: " + filename);
-		sqlService.ExecuteSql(stmt);
+
+		String metricsFile = datadir + "/" + filename;
+
+		String sqlStmt = stmt + " ('" + metricsFile + "')";	
+
+		log.info("Reading data file: " + metricsFile);
+
+		sqlService.ExecuteSql(sqlStmt);
+
 		log.info("Data loaded.");
 		
 		return true;
@@ -39,13 +50,15 @@ public class FileService {
 
 		boolean isValid = false;
 
-		File f = new File(filename);
+		String metricsFile = datadir + "/" + filename;
+
+		File f = new File(metricsFile);
 
         if (f.exists() && !f.isDirectory() && f.length() > 0) {
 			isValid = true;
 
 			if (header.length() > 0){
-				String firstLine = this.getFirstLine(filename);
+				String firstLine = this.getFirstLine(metricsFile);
 
 				if (!firstLine.startsWith(header)) {
 					log.error("Invalid header");

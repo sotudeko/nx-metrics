@@ -9,6 +9,8 @@ iqurl = sys.argv[1]
 iquser = sys.argv[2]
 iqpwd = sys.argv[3]
 
+jsonfile = 'policyviolations.json'
+csvfile = 'policyviolations.csv'
 
 def getNexusIqData(api):
 	url = "{}{}" . format(iqurl, api)
@@ -43,7 +45,7 @@ def writeToCsvFile(policyViolations):
 
 	applicationViolations = policyViolations['applicationViolations']
 
-	with open('policyviolations.csv', 'w') as fd:
+	with open(csvfile, 'w') as fd:
 			fd.write("PolicyName,ApplicationName,OpenTime,Component,Stage\n")
 			for applicationViolation in applicationViolations:
 				applicationPublicId = applicationViolation["application"]["publicId"]
@@ -58,7 +60,6 @@ def writeToCsvFile(policyViolations):
 					line = policyName + "," + applicationPublicId + "," + openTime + "," + packageUrl + "," + stage + "\n"
 					fd.write(line)
 
-	print('policyviolations.csv')
 	return
 
 
@@ -67,12 +68,14 @@ def main():
 	policyIds = getPolicyIds(policies)
 
 	policyViolations = getNexusIqData("/api/v2/policyViolations?" + policyIds)
-	with open('policyviolations.json', 'w') as fd:
+	with open(jsonfile, 'w') as fd:
     		json.dump(policyViolations, fd)
 
-	print('policyviolations.json')
+	print(jsonfile)
 
 	writeToCsvFile(policyViolations)
-				
+
+	print(csvfile)
+	
 if __name__ == '__main__':
 	main()
