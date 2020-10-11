@@ -7,7 +7,6 @@ import java.io.IOException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.sonatype.cs.nxmetrics.util.SqlStatement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -21,7 +20,7 @@ public class FileService {
 	private String datadir;
 	
 	@Autowired
-	private SqlService sqlService;
+	private DataService dataService;
 	
 	public boolean loadFile(String filename, String stmt) throws IOException {
 
@@ -31,7 +30,7 @@ public class FileService {
 
 		log.info("Reading data file: " + metricsFile);
 
-		sqlService.ExecuteSql(sqlStmt);
+		dataService.loadMetrics(sqlStmt);
 
 		log.info("Data loaded.");
 		

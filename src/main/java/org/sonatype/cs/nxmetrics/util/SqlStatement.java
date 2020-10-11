@@ -2,8 +2,47 @@ package org.sonatype.cs.nxmetrics.util;
 
 public class SqlStatement {
 
-    public static String MetricsTable = "DROP TABLE IF EXISTS METRIC; " +
+	public static final String ApplicationsOnboarded = "select time_period_start as label, " +
+													"count(application_id) as pointA " +
+													"from metric " +
+													"group by time_period_start " +
+													"order by 1 asc";
+
+	public static final String MostScannedApplications = "select application_name as label, " +
+													"sum (evaluation_count) as pointA " +
+													"from metric " +
+													"group by application_name " +
+													"order by 2 desc";
+
+	public static final String DiscoveredSecurityViolations = "select time_period_start as label, " +
+														"sum(discovered_Count_Security_Critical) as pointA, " +
+														"sum(discovered_Count_Security_Severe) as pointB, " +
+														"sum(discovered_Count_Security_Moderate) as pointC " +
+														"from metric group by time_period_start";
+	
+	public static final String FixedSecurityViolations = "select time_period_start as label, " +
+													"sum(fixed_Count_Security_Critical) as pointA, " +
+													"sum(fixed_Count_Security_Severe) as pointB, " +
+													"sum(fixed_Count_Security_Moderate) as pointC " +
+													"from metric group by time_period_start";
+
+	public static final String WaivedSecurityViolations = "select time_period_start as label, " +
+													"sum(waived_count_security_Critical) as pointA, " +
+													"sum(waived_count_security_Severe) as pointB, " +
+													"sum(waived_count_security_Moderate) as pointC " +
+													"from metric group by time_period_start";
+
+	public static final String OpenSecurityViolations = "select application_name as label, " +
+													"sum(open_count_at_time_period_security_critical) as pointA, " +
+													"sum(open_count_at_time_period_security_severe) as pointB, " +
+													"sum(open_count_at_time_period_security_moderate) as pointC " +
+													"from metric";
+
+	
+
+    public static final String MetricsTable = "DROP TABLE IF EXISTS METRIC; " +
 			"CREATE TABLE METRIC (" +
+			"id INT default null, " + 
 			" application_Id VARCHAR(250) DEFAULT NULL," +
 			" application_Name VARCHAR(250) DEFAULT NULL," +
 			" application_Public_Id VARCHAR(250) DEFAULT NULL," +
@@ -26,9 +65,9 @@ public class SqlStatement {
 			" open_Count_At_Time_Period_End_License_Critical INT DEFAULT NULL," +
 			" open_Count_At_Time_Period_End_License_Moderate INT DEFAULT NULL," +
 			" open_Count_At_Time_Period_End_License_Severe INT DEFAULT NULL," +
-			" open_Count_At_Time_Period_End_Security_Critical INT DEFAULT NULL," +
-			" open_Count_At_Time_Period_End_Security_Moderate INT DEFAULT NULL," +
-			" open_Count_At_Time_Period_End_Security_Severe INT DEFAULT NULL," +
+			" open_count_at_time_period_end_security_Critical INT DEFAULT NULL," +
+			" open_count_at_time_period_end_security_Moderate INT DEFAULT NULL," +
+			" open_count_at_time_period_end_security_Severe INT DEFAULT NULL," +
 			" organization_Name VARCHAR(250) DEFAULT NULL," +
 			" time_Period_Start VARCHAR(250) DEFAULT NULL," +
 			" waived_Count_License_Critical INT DEFAULT NULL," +
@@ -38,6 +77,7 @@ public class SqlStatement {
 			" waived_Count_Security_Moderate INT DEFAULT NULL," +
 			" waived_Count_Security_Severe INT DEFAULT NULL)" +
 			"AS SELECT " +
+			0 + ", " +
 			"applicationId," +
 			"applicationName," +
 			"applicationPublicId," +
@@ -73,7 +113,7 @@ public class SqlStatement {
 			"waivedCountSecuritySevere " +
 			" from csvread ";
 
-	public static String PolicyViolationsTables = "DROP TABLE IF EXISTS POLICY_VIOLATION;" + 
+	public static final String PolicyViolationsTables = "DROP TABLE IF EXISTS POLICY_VIOLATION;" + 
 			"CREATE TABLE POLICY_VIOLATION (" + 
 			"  policy_name VARCHAR(250) NOT NULL," + 
 			"  application_name VARCHAR(250) NOT NULL," + 
@@ -82,14 +122,14 @@ public class SqlStatement {
 			"  stage VARCHAR(250) DEFAULT NULL) " +
 			" AS SELECT policyname, applicationname, parsedatetime(opentime, 'yyyy-MM-dd', 'en'), component, stage FROM CSVREAD ";
 	
-	public static String ApplicationEvaluationsTable = "DROP TABLE IF EXISTS APPLICATION_EVALUATION;" + 
+	public static final String ApplicationEvaluationsTable = "DROP TABLE IF EXISTS APPLICATION_EVALUATION;" + 
 			"CREATE TABLE APPLICATION_EVALUATION (" + 
 			"  application_name VARCHAR(250) NOT NULL," + 
 			"  evaluation_date VARCHAR(250) DEFAULT NULL," + 
 			"  stage VARCHAR(250) DEFAULT NULL) " +
 			" AS SELECT applicationname, parsedatetime(evaluationdate, 'yyyy-MM-dd', 'en'), stage FROM CSVREAD ";
  
-	public static String ComponentsQuarantineTables = "DROP TABLE IF EXISTS COMPONENT_QUARANTINE;" + 
+	public static final String ComponentsQuarantineTables = "DROP TABLE IF EXISTS COMPONENT_QUARANTINE;" + 
 			"CREATE TABLE COMPONENT_QUARANTINE (" + 
 			"  repository VARCHAR(250) NOT NULL," +
 			"  format VARCHAR(250) NOT NULL," + 

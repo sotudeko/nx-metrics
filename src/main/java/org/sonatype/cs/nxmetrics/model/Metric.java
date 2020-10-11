@@ -13,7 +13,6 @@ public class Metric {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-
     private Long id;
 
 	private String applicationId;
@@ -55,5 +54,11 @@ public class Metric {
 	private int openCountAtTimePeriodEndLicenseModerate;
 	private int openCountAtTimePeriodEndLicenseSevere;
 	private int openCountAtTimePeriodEndLicenseCritical;
-    
+
+	@Override
+	public String toString() {
+		return "Metric [applicationPublicId=" + applicationPublicId + ", evaluationCount=" + evaluationCount
+				+ ", organizationName=" + organizationName + ", timePeriodStart=" + timePeriodStart + "]";
+	}	
+
 }
