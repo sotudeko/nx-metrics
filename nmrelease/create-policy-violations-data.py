@@ -24,6 +24,13 @@ def getNexusIqData(api):
 
 	return res
 
+def getCVEValue(d):
+	cve = "none"
+
+	if type(d) is dict:
+		cve = d["value"]
+
+	return(cve)
 
 def getPolicyIds(data):
 	policyIds = ""
@@ -46,7 +53,7 @@ def writeToCsvFile(policyViolations):
 	applicationViolations = policyViolations['applicationViolations']
 
 	with open(csvfile, 'w') as fd:
-			fd.write("PolicyName,ApplicationName,OpenTime,Component,Stage\n")
+			fd.write("PolicyName,CVE,ApplicationName,OpenTime,Component,Stage\n")
 			for applicationViolation in applicationViolations:
 				applicationPublicId = applicationViolation["application"]["publicId"]
 
@@ -57,8 +64,19 @@ def writeToCsvFile(policyViolations):
 					policyName = policyViolation["policyName"]
 					packageUrl = policyViolation["component"]["packageUrl"]
 
-					line = policyName + "," + applicationPublicId + "," + openTime + "," + packageUrl + "," + stage + "\n"
-					fd.write(line)
+					constraintViolations = policyViolation["constraintViolations"]
+
+					for constraintViolation in constraintViolations:
+						values = ""
+
+						reasons = constraintViolation["reasons"]
+						for reason in reasons:
+							v = getCVEValue(reason["reference"])
+							values += v+":"
+						
+						values = values[:-1]
+						line = policyName + "," + values + "," + applicationPublicId + "," + openTime + "," + packageUrl + "," + stage + "\n"
+						fd.write(line)
 
 	return
 
