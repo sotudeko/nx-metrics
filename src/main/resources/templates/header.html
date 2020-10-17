@@ -21,8 +21,8 @@
     </div>
 
     <script>
-        var height = '700px'
-        var width = '700px'
+        var height = '600px'
+        var width = '900px'
 
         var grid = {
             row: {
@@ -30,9 +30,34 @@
                 opacity: 0.5
             }
         }
-        
+
         var barchartlabels = {
-            enabled: true
+            enabled: true,
+            enabledOnSeries: undefined,
+            formatter: function (val, opts) {
+                return val
+            },
+            textAnchor: 'middle',
+            distributed: false,
+            offsetX: 0,
+            offsetY: 0,
+            style: {
+                fontSize: '10px',
+                fontFamily: 'Helvetica, Arial, sans-serif',
+                fontWeight: 'bold',
+                colors: undefined
+            },
+            background: {
+                enabled: true,
+                foreColor: '#fff',
+                padding: 4,
+                borderRadius: 2,
+                borderWidth: 2,
+                borderColor: '#fff',
+                opacity: 0.9,
+                
+            },
+            
         }
 
         var barchart = {
@@ -64,6 +89,24 @@
             zoom: {
                 enabled: true
             }
+        }
+
+        var legend = {
+            position: 'top',
+            horizontalAlign: 'left',
+            offsetX: 120
+        }
+
+        var fillbar = {
+            colors: '#0118FD'
+        }
+
+        var fillStacked = {
+            colors: ['#F90707', '#F99A07', '#F9DC07']
+        }
+
+        var fillViolationsSummary = {
+            colors: ['#0742FA', '#F90707', '#08B005', '#900C3F']
         }
 
        

@@ -14,16 +14,17 @@ import org.sonatype.cs.nxmetrics.service.DataService;
 import org.sonatype.cs.nxmetrics.util.SqlStatement;
 
 @Controller
-public class UnsignedController {
-    private static final Logger log = LoggerFactory.getLogger(UnsignedController.class);
+public class ApplicationsController {
+
+    private static final Logger log = LoggerFactory.getLogger(ApplicationsController.class);
 
     @Autowired
     private DataService dataService;
 
-    @GetMapping({ "/unsigned" })
+    @GetMapping({ "/applications" })
     public String applications(Model model) {
 
-        log.info("In UnsignedController");
+        log.info("In ApplicationsController");
 
         List<DbRow> applicationsOnboarded = dataService.runSql(SqlStatement.ApplicationsOnboarded);
         List<DbRow> numberOfScans = dataService.runSql(SqlStatement.NumberOfScans);
@@ -36,10 +37,10 @@ public class UnsignedController {
 		model.addAttribute("numberOfApplicationsScanned", numberOfApplicationsScanned);
         model.addAttribute("mttr", mttr);
         
-        for (Mttr m : mttr) {
-            log.info(m.toString());
-        }
+        // for (Mttr m : mttr) {
+        //     log.info(m.toString());
+        // }
 
-        return "unsigned";
+        return "reportApplications";
     }
 }

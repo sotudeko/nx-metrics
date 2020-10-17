@@ -4,7 +4,7 @@
 
         <div id="applicationsOnboardedChart"></div>
         <script th:inline="javascript">
-           var points = /*[[${applicationsOnboarded}]]*/'noValue';
+            var points = /*[[${applicationsOnboarded}]]*/'noValue';
 	     	var pdata = [];
 	     	var labels = [];
 	     	
@@ -19,6 +19,7 @@
                 chart: barchart,
                 grid: grid,
                 dataLabels: barchartlabels,
+                fill: fillbar,
                 series: [{
                     name: 'sales',
                     data: pdata
@@ -54,6 +55,7 @@
                 chart: barchart,
                 grid: grid,
                 dataLabels: barchartlabels,
+                fill: fillbar,
                 series: [{
                     name: 'sales',
                     data: pdata
@@ -89,6 +91,7 @@
                 chart: barchart,
                 grid: grid,
                 dataLabels: barchartlabels,
+                fill: fillbar,
                 series: [{
                     name: 'sales',
                     data: pdata
@@ -117,11 +120,8 @@
 	     	var labels = [];
 	     	
 	     	points.forEach(entry => {
-	            // var label = entry.label;
-	            // var pointA = entry.pointA;
-	            // var pointB = entry.pointB;
-	            // var pointC = entry.pointC;
-	            labels.push(entry.label);
+                labels.push(entry.label);
+                
                 if (entry.pointA > 0) {
                     dataA.push(Math.ceil(entry.pointA));
                 }
@@ -146,7 +146,11 @@
 
             var options = {
                 chart: stackedbarchart,
+                dataLabels: barchartlabels,
                 grid: grid,
+                legend: legend,
+                colors: ['#F90707', '#F99A07', '#F9DC07'],
+                fill: fillStacked,
                 series: [{
                     name: 'Critical',
                     data: dataA
@@ -166,21 +170,6 @@
                     text: 'MTTR (days)',
                     align: 'left'
                 },
-                responsive: [{
-          breakpoint: 480,
-          options: {
-            legend: {
-              position: 'bottom',
-              offsetX: -10,
-              offsetY: 0
-            }
-          }
-        }],
-        plotOptions: {
-          bar: {
-            horizontal: false,
-          },
-        },
             }
 
             var chart = new ApexCharts(document.querySelector("#mttrChart"), options);

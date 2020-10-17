@@ -30,7 +30,7 @@ public class FileService {
 
 		log.info("Reading data file: " + metricsFile);
 
-		dataService.loadMetrics(sqlStmt);
+		dataService.runSqlLoad(sqlStmt);
 
 		log.info("Data loaded.");
 		
