@@ -15,7 +15,7 @@ import org.springframework.stereotype.Component;
 public class LoadPolicyViolationsRunner implements CommandLineRunner {
 
     private static final Logger log = LoggerFactory.getLogger(LoadPolicyViolationsRunner.class);
-    private static final String fileHeader = "PolicyName,ApplicationName,OpenTime,Component,Stage";
+    private static final String fileHeader = "PolicyName,CVE,ApplicationName,OpenTime,Component,Stage";
 
     @Value("${data.policyviolationsmetrics}")
     private String metricsFile;

@@ -1,22 +1,22 @@
 package org.sonatype.cs.nxmetrics.model;
 
-public class DbRow {
+public class Mttr {
 
     private String label;
-    private int pointA;
-    private int pointB;
-    private int pointC;
-    private int pointD;
+    private float pointA;
+    private float pointB;
+    private float pointC;
+    private float pointD;
 
-    public DbRow(String label, int pointA, int pointB, int pointC, int pointD) {
+    public Mttr() {
+    }
+
+    public Mttr(String label, float pointA, float pointB, float pointC, float pointD) {
         this.label = label;
         this.pointA = pointA;
         this.pointB = pointB;
         this.pointC = pointC;
         this.pointD = pointD;
-    }
-
-    public DbRow() {
     }
 
     public String getLabel() {
@@ -27,42 +27,44 @@ public class DbRow {
         this.label = label;
     }
 
-    public int getPointA() {
+    public float getPointA() {
         return pointA;
     }
 
-    public void setPointA(int pointA) {
+    public void setPointA(float pointA) {
         this.pointA = pointA;
     }
 
-    public int getPointB() {
+    public float getPointB() {
         return pointB;
     }
 
-    public void setPointB(int pointB) {
+    public void setPointB(float pointB) {
         this.pointB = pointB;
     }
 
-    public int getPointC() {
+    public float getPointC() {
         return pointC;
     }
 
-    public void setPointC(int pointC) {
+    public void setPointC(float pointC) {
         this.pointC = pointC;
     }
 
-    public int getPointD() {
+    public float getPointD() {
         return pointD;
     }
 
-    public void setPointD(int pointD) {
+    public void setPointD(float pointD) {
         this.pointD = pointD;
     }
 
     @Override
     public String toString() {
-        return "DbRow [label=" + label + ", pointA=" + pointA + ", pointB=" + pointB + ", pointC=" + pointC
+        return "DbRowFloat [label=" + label + ", pointA=" + pointA + ", pointB=" + pointB + ", pointC=" + pointC
                 + ", pointD=" + pointD + "]";
     }
+
+    
     
 }

@@ -14,32 +14,85 @@ public class SqlStatement {
 													"group by application_name " +
 													"order by 2 desc";
 
+	public static String NumberOfScans = "select time_period_start as label, " +
+											"sum(evaluation_count) as pointA " +
+											"from metric " +
+											"group by time_period_start";
+
+	public static String NumberOfApplicationsScanned = "select time_period_start as label, " +
+														"count(application_id) as pointA " +
+														"from metric where evaluation_count > 0 " +
+														"group by time_period_start";
+
+	public static String OpenSecurityViolations = "select application_name as label, " +
+													"sum(open_count_at_time_period_end_security_critical) as pointA, " +
+													"sum(open_count_at_time_period_end_security_severe) as pointB, " +
+													"sum(open_count_at_time_period_end_security_moderate) as pointC " +
+													"from metric" +
+													"group by application_name " +
+													"order by pointA desc, pointB desc";
+
 	public static final String DiscoveredSecurityViolations = "select time_period_start as label, " +
-														"sum(discovered_Count_Security_Critical) as pointA, " +
-														"sum(discovered_Count_Security_Severe) as pointB, " +
-														"sum(discovered_Count_Security_Moderate) as pointC " +
+														"sum(discovered_count_security_critical) as pointA, " +
+														"sum(discovered_count_security_severe) as pointB, " +
+														"sum(discovered_count_security_moderate) as pointC " +
 														"from metric group by time_period_start";
 	
 	public static final String FixedSecurityViolations = "select time_period_start as label, " +
-													"sum(fixed_Count_Security_Critical) as pointA, " +
-													"sum(fixed_Count_Security_Severe) as pointB, " +
-													"sum(fixed_Count_Security_Moderate) as pointC " +
+													"sum(fixed_count_security_critical) as pointA, " +
+													"sum(fixed_count_security_severe) as pointB, " +
+													"sum(fixed_count_security_moderate) as pointC " +
 													"from metric group by time_period_start";
 
 	public static final String WaivedSecurityViolations = "select time_period_start as label, " +
-													"sum(waived_count_security_Critical) as pointA, " +
-													"sum(waived_count_security_Severe) as pointB, " +
-													"sum(waived_count_security_Moderate) as pointC " +
+													"sum(waived_count_security_critical) as pointA, " +
+													"sum(waived_count_security_severe) as pointB, " +
+													"sum(waived_count_security_moderate) as pointC " +
 													"from metric group by time_period_start";
 
-	public static final String OpenSecurityViolations = "select application_name as label, " +
-													"sum(open_count_at_time_period_security_critical) as pointA, " +
-													"sum(open_count_at_time_period_security_severe) as pointB, " +
-													"sum(open_count_at_time_period_security_moderate) as pointC " +
-													"from metric";
-
 	
+	public static String OpenLicenseViolations = "select application_name as label, " +
+													"sum(open_count_at_time_period_end_license_critical) as pointA, " +
+													"sum(open_count_at_time_period_end_license_severe) as pointB, " +
+													"sum(open_count_at_time_period_end_license_moderate) as pointC " +
+													"from metric" +
+													"group by application_name " +
+													"order by pointA desc, pointB desc";
+													
+	public static final String DiscoveredLicenseViolations = "select time_period_start as label, " +
+ 																"sum(discovered_count_license_critical) as pointA, " +
+																"sum(discovered_count_license_severe) as pointB, " +
+																"sum(discovered_count_license_moderate) as pointC " +
+																"from metric " +
+																"group by time_period_start";
 
+	public static final String FixedLicenseViolations = "select time_period_start as label, " +
+														"sum(fixed_count_license_critical) as pointA, " +
+														"sum(fixed_count_license_severe) as pointB, " +
+														"sum(fixed_count_license_moderate) as pointC " +
+														"from metric " +
+														"group by time_period_start";
+
+	public static final String WaivedLicenseViolations = "select time_period_start as label, " +
+														"sum(waived_count_license_critical) as pointA, " +
+														"sum(waived_count_license_severe) as pointB, " +
+														"sum(waived_count_license_moderate) as pointC " +
+														"from metric " +
+														"group by time_period_start";
+
+	public static final String MTTR = "select time_period_start as label, \n" + 
+										"ifnull(mttr_critical_threat,0) as pointA, " + 
+										"ifnull(mttr_severe_threat,0) as pointB, "+ 
+										"ifnull(mttr_moderate_threat,0)  as pointC " + 
+										"from metric";
+
+	public static String MTTR2 = "select time_period_start as label, \n" + 
+			 					"ifnull(avg(case when ifnull(mttr_critical_threat,0) <>0 then ifnull(mttr_critical_threat,0) else null end)/86400000,0) as pointA,  \n" + 
+			 					"ifnull(avg(case when ifnull(mttr_severe_threat,0) <> 0 then ifnull(mttr_severe_threat,0) else null end)/86400000,0) as pointB,  \n" + 
+			 					"ifnull(avg(case when ifnull(mttr_moderate_threat,0) <> 0 then ifnull(mttr_moderate_threat,0) else null end)/86400000,0)  as pointC \n" + 
+								 "from metric " +
+								 "group by time_period_start";
+							
     public static final String MetricsTable = "DROP TABLE IF EXISTS METRIC; " +
 			"CREATE TABLE METRIC (" +
 			"id INT default null, " + 

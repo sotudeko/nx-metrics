@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 import org.sonatype.cs.nxmetrics.model.DbRow;
+import org.sonatype.cs.nxmetrics.model.Mttr;
 
 @Service
 public class SqlService {
@@ -21,6 +22,10 @@ public class SqlService {
     
     public List<DbRow> executeSql2(String stmt) {
       return jtm.query(stmt, new BeanPropertyRowMapper<>(DbRow.class));  
+    }
+
+    public List<Mttr> executeSqlMttr(String stmt) {
+      return jtm.query(stmt, new BeanPropertyRowMapper<>(Mttr.class));  
     }
     
 }
