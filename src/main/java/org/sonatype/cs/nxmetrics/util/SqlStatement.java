@@ -105,7 +105,15 @@ public class SqlStatement {
 													"from metric " +
 													"group by time_period_start";
 
-
+	public static String LatestTimePeriodStart = "select distinct time_period_start as label, " +
+													"0 as pointA " +
+													"from metric " +
+													"order by 1 desc limit 1";
+	
+	public static String TimePeriods = "select distinct time_period_start as label " +
+										"from metric " +
+										" order by 1";
+													
     public static final String MetricsTable = "DROP TABLE IF EXISTS METRIC; " +
 			"CREATE TABLE METRIC (" +
 			"id INT default null, " + 

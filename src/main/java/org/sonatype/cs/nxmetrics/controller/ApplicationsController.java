@@ -29,17 +29,12 @@ public class ApplicationsController {
         List<DbRow> applicationsOnboarded = dataService.runSql(SqlStatement.ApplicationsOnboarded);
         List<DbRow> numberOfScans = dataService.runSql(SqlStatement.NumberOfScans);
         List<DbRow> numberOfApplicationsScanned = dataService.runSql(SqlStatement.NumberOfApplicationsScanned);
-
         List<Mttr> mttr = dataService.runSqlMttr(SqlStatement.MTTR);
 
 		model.addAttribute("applicationsOnboarded", applicationsOnboarded);
 		model.addAttribute("numberOfScans", numberOfScans);
 		model.addAttribute("numberOfApplicationsScanned", numberOfApplicationsScanned);
         model.addAttribute("mttr", mttr);
-        
-        // for (Mttr m : mttr) {
-        //     log.info(m.toString());
-        // }
 
         return "reportApplications";
     }

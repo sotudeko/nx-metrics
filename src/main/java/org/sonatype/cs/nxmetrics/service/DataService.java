@@ -16,9 +16,6 @@ public class DataService  {
     @Autowired 
     private JdbcTemplate jtm;
     
-    @Autowired
-    private DataRepositoryService repository;
-
     public void runSqlLoad(String stmt) {
         jtm.execute(stmt);
     }
@@ -26,15 +23,8 @@ public class DataService  {
     public List<DbRow> runSql(String stmt) {
         return jtm.query(stmt, new BeanPropertyRowMapper<>(DbRow.class));  
     }
-  
+
     public List<Mttr> runSqlMttr(String stmt) {
         return jtm.query(stmt, new BeanPropertyRowMapper<>(Mttr.class));  
-    }
-
-    public List<Metric> findAllMetrics() {
-        Iterable<Metric> it = repository.findAll();
-        ArrayList<Metric> metrics = new ArrayList<Metric>();
-        it.forEach(e -> metrics.add(e));
-        return metrics;
     }
 }
