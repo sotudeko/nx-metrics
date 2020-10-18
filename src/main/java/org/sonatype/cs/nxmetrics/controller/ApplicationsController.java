@@ -45,8 +45,8 @@ public class ApplicationsController {
         String applicationOpenViolations = SqlStatement.ApplicationsOpenViolations + " where time_period_start = '" + latestTimePeriod + "' group by application_name" + " order by 2 desc, 3 desc";
         List<DbRow> aov = dataService.runSql(applicationOpenViolations);
 
-        String organisationViolationsData = SqlStatement.OrganisationsOpenViolations + " where time_period_start = '" + latestTimePeriod + "' group by organization_name" + " order by 2 desc, 3 desc";
-        List<DbRow> oov = dataService.runSql(applicationOpenViolations);
+        String organisationOpenViolations = SqlStatement.OrganisationsOpenViolations + " where time_period_start = '" + latestTimePeriod + "' group by organization_name" + " order by 2 desc, 3 desc";
+        List<DbRow> oov = dataService.runSql(organisationOpenViolations);
 
         model.addAttribute("mostCriticalApplicationName", aov.get(0).getLabel());
         model.addAttribute("mostCriticalApplicationCount", aov.get(0).getPointA());
