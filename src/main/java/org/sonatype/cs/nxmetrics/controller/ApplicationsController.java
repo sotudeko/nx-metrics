@@ -43,12 +43,22 @@ public class ApplicationsController {
         model.addAttribute("mttr", mttr);
 
         String applicationOpenViolations = SqlStatement.ApplicationsOpenViolations + " where time_period_start = '" + latestTimePeriod + "' group by application_name" + " order by 2 desc, 3 desc";
-        List<DbRow> d = dataService.runSql(applicationOpenViolations);
+        List<DbRow> aov = dataService.runSql(applicationOpenViolations);
 
-        model.addAttribute("mostCriticalApplicationName", d.get(0).getLabel());
-        model.addAttribute("mostCriticalApplicationCount", d.get(0).getPointA());
-        model.addAttribute("leastCriticalApplicationName", d.get(d.size()-1).getLabel());
-        model.addAttribute("leastCriticalApplicationCount", d.get(d.size()-1).getPointA());
+        String organisationViolationsData = SqlStatement.OrganisationsOpenViolations + " where time_period_start = '" + latestTimePeriod + "' group by organization_name" + " order by 2 desc, 3 desc";
+        List<DbRow> oov = dataService.runSql(applicationOpenViolations);
+
+        model.addAttribute("mostCriticalApplicationName", aov.get(0).getLabel());
+        model.addAttribute("mostCriticalApplicationCount", aov.get(0).getPointA());
+        model.addAttribute("leastCriticalApplicationName", aov.get(aov.size()-1).getLabel());
+        model.addAttribute("leastCriticalApplicationCount", aov.get(aov.size()-1).getPointA());
+
+        model.addAttribute("applicationsSecurityRemediation", dataService.runSql(SqlStatement.ApplicationsSecurityRemediation));
+        model.addAttribute("applicationsLicenseRemediation", dataService.runSql(SqlStatement.ApplicationsLicenseRemediation));	
+				
+		model.addAttribute("mostCriticalOrganisationsData", oov);
+		model.addAttribute("mostCriticalApplicationsData", aov);
+		model.addAttribute("mostScannedApplicationsData", dataService.runSql(SqlStatement.MostScannedApplications));
 
         return "reportApplications";
     }

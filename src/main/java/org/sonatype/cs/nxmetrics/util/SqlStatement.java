@@ -126,6 +126,12 @@ public class SqlStatement {
 										"sum(OPEN_COUNT_AT_TIME_PERIOD_END_SECURITY_MODERATE) + sum(OPEN_COUNT_AT_TIME_PERIOD_END_LICENSE_MODERATE) as pointC, " +
 										"from metric";
 
+	public static String OrganisationsOpenViolations = "select  distinct organization_name as label, " + 
+										"sum(OPEN_COUNT_AT_TIME_PERIOD_END_SECURITY_CRITICAL) + sum(OPEN_COUNT_AT_TIME_PERIOD_END_LICENSE_CRITICAL) as pointA, " +
+										"sum(OPEN_COUNT_AT_TIME_PERIOD_END_SECURITY_SEVERE)   + sum(OPEN_COUNT_AT_TIME_PERIOD_END_LICENSE_SEVERE) as pointB, " +
+										"sum(OPEN_COUNT_AT_TIME_PERIOD_END_SECURITY_MODERATE) + sum(OPEN_COUNT_AT_TIME_PERIOD_END_LICENSE_MODERATE) as pointC " +
+										"from metric";
+
 	public static String DiscoveredSecurityViolationsTotals = "select sum(discovered_count_security_critical) as pointA, "  +
 																"sum(discovered_count_security_severe) as pointB, " +
 																"sum(discovered_count_security_moderate) as pointC " +
@@ -141,7 +147,6 @@ public class SqlStatement {
 																"sum(fixed_count_security_moderate) as pointC " +
 																"from metric";
 													
-
 	public static String WaivedSecurityViolationsTotals = "select sum(waived_count_security_critical) as pointA, "  +
 																"sum(waived_count_security_severe) as pointB, " +
 																"sum(waived_count_security_moderate) as pointC " +
@@ -166,8 +171,20 @@ public class SqlStatement {
     public static String WaivedLicenseViolationsTotals = "select sum(waived_count_license_critical) as pointA, "  +
                                                                 "sum(waived_count_license_severe) as pointB, " +
                                                                 "sum(waived_count_license_moderate) as pointC " +
-                                                                "from metric";
-
+																"from metric";
+																
+	public static String ApplicationsSecurityRemediation = "select APPLICATION_NAME as label, " + 
+																"sum(DISCOVERED_COUNT_SECURITY_CRITICAL) + sum(DISCOVERED_COUNT_SECURITY_SEVERE) + sum(DISCOVERED_COUNT_SECURITY_MODERATE)as pointA, " + 
+																"sum(FIXED_COUNT_SECURITY_CRITICAL) + sum(FIXED_COUNT_SECURITY_SEVERE) + sum(FIXED_COUNT_SECURITY_MODERATE) as pointB, " +
+																"sum(WAIVED_COUNT_SECURITY_CRITICAL) + sum(WAIVED_COUNT_SECURITY_SEVERE) + sum(WAIVED_COUNT_SECURITY_MODERATE) as pointC " +
+																"from METRIC group by APPLICATION_NAME order by 2 desc";
+	
+	public static String ApplicationsLicenseRemediation = "select APPLICATION_NAME as label, " +
+													            "sum(DISCOVERED_COUNT_LICENSE_CRITICAL) + sum(DISCOVERED_COUNT_LICENSE_SEVERE) + sum(DISCOVERED_COUNT_LICENSE_MODERATE)as pointA, " +  
+													            "sum(FIXED_COUNT_LICENSE_CRITICAL) + sum(FIXED_COUNT_LICENSE_SEVERE) + sum(FIXED_COUNT_LICENSE_MODERATE) as pointB, " +
+													            "sum(WAIVED_COUNT_LICENSE_CRITICAL) + sum(WAIVED_COUNT_LICENSE_SEVERE) + sum(WAIVED_COUNT_LICENSE_MODERATE) as pointC " +
+													            "from METRIC group by APPLICATION_NAME order by 2 desc";
+	
     public static final String MetricsTable = "DROP TABLE IF EXISTS METRIC; " +
 			"CREATE TABLE METRIC (" +
 			"id INT default null, " + 
