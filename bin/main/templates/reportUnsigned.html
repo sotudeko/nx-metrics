@@ -32,6 +32,10 @@
     </script> -->
 
     <div>
+    <div class="container">
+    <div class="row">
+    <div class="col-xl mx-auto w-auto bg-white rounded">
+    <div class="table-responsive table-wrapper-scroll-y">
     
     <table class="table table-hover">
         <thead class="thead-dark">
@@ -140,8 +144,15 @@
     </table>
 
     </div>
+    </div></div></div></div>
 
     <!--  applications -->
     <div th:insert="fragmentApplications :: applicationsFrag"></div>
+
+    <!--  security -->
+    <div th:insert="fragmentSecurityViolations :: securityViolationsFrag"></div>
+
+    <!--  license -->
+    <div th:insert="fragmentLicenseViolations :: LicenseViolationsFrag"></div>
     
 </body>
