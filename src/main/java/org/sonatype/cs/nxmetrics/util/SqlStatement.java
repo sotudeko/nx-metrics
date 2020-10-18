@@ -88,6 +88,12 @@ public class SqlStatement {
 			 					"ifnull(avg(case when ifnull(mttr_moderate_threat,0) <> 0 then ifnull(mttr_moderate_threat,0) else null end)/86400000,0)  as pointC \n" + 
 								 "from metric " +
 								 "group by time_period_start";
+
+	public static String MTTR2 = "select time_period_start as label, " + 
+								 "ifnull(mttr_critical_threat,0) as pointA,  " + 
+								 "ifnull(mttr_severe_threat,0) as pointB,  " + 
+								 "ifnull(mttr_moderate_threat,0)  as pointC " + 
+								 "from metric";
 	
 	public static String SecurityViolations = "select time_period_start as label, " +
 													"(sum(discovered_count_security_critical)+sum(discovered_count_security_severe)+sum(discovered_count_security_moderate)) as pointA, " +

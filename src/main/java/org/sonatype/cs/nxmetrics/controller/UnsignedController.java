@@ -5,6 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import java.util.ArrayList;
 import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,6 +13,7 @@ import org.sonatype.cs.nxmetrics.model.DbRow;
 import org.sonatype.cs.nxmetrics.model.Mttr;
 import org.sonatype.cs.nxmetrics.service.DataService;
 import org.sonatype.cs.nxmetrics.util.SqlStatement;
+import org.sonatype.cs.nxmetrics.util.TimePeriodService;
 
 @Controller
 public class UnsignedController {
@@ -20,10 +22,16 @@ public class UnsignedController {
     @Autowired
     private DataService dataService;
 
+    @Autowired
+    private TimePeriodService timePeriodService;
+
     @GetMapping({ "/unsigned" })
     public String applications(Model model) {
 
         log.info("In UnsignedController");
+
+        String latestTimePeriod = timePeriodService.latestPeriod();
+	    // List<DataPoint> applicationViolationsData = sqlService.executeSQLMetrics(sqlService.AddWhereClauseAppOpenViolations(SQLStatement.ApplicationsOpenViolations, latestTimePeriod, "APPLICATION_NAME"));
 
         List<DbRow> applicationsOnboarded = dataService.runSql(SqlStatement.ApplicationsOnboarded);
         List<DbRow> numberOfScans = dataService.runSql(SqlStatement.NumberOfScans);
@@ -74,6 +82,8 @@ public class UnsignedController {
 
         model.addAttribute("fixRate", String.format("%.02f", fixRate));
 
+        model.addAttribute("mttrAvg", this.MttrAvg());
+
         return "reportUnsigned";
     }
 
@@ -109,5 +119,61 @@ public class UnsignedController {
 
         int[] values = new int[]{total, avg};
 		return values;
+    }
+
+    private String[] MttrAvg(){
+        List<Float> pointA = new ArrayList<>();	
+	    List<Float> pointB = new ArrayList<>();	
+	    List<Float> pointC = new ArrayList<>();	
+	    
+	    List<Mttr> mttrPoints = this.getMttr();
+	    
+	    for (Mttr dp : mttrPoints) {
+	    	pointA.add(dp.getPointA());
+	    	pointB.add(dp.getPointB());
+	    	pointC.add(dp.getPointC());
+		}
+        
+        String mttrCriticalAvg = String.format("%.0f", this.averagePoint(pointA));
+        String mttrSevereAvg = String.format("%.0f", this.averagePoint(pointB));
+        String mttrModerateAvg = String.format("%.0f", this.averagePoint(pointC));
+
+        String[] values = new String[]{mttrCriticalAvg, mttrSevereAvg, mttrModerateAvg};
+        return values;
+    }
+    
+    private List<Mttr> getMttr() {
+		
+		List<Mttr> mttr = new ArrayList<Mttr>();
+		
+	    List<Mttr> points = dataService.runSqlMttr(SqlStatement.MTTR2);
+	    
+	    for (Mttr dp : points) {
+	    	Mttr cp = new Mttr();
+	        cp.setLabel(dp.getLabel());
+	    	cp.setPointA(dp.getPointA()/86400000);
+	    	cp.setPointB(dp.getPointB()/86400000);
+	    	cp.setPointC(dp.getPointC()/86400000);
+
+	    	mttr.add(cp);
+	    }
+	    
+	    return mttr;
+    }
+    
+    public Object averagePoint(List<Float> points) {
+		int countPoints = 0;
+		
+		float sumData = 0;
+		
+		for (float dp : points) {
+			
+			if (dp > 0) {
+				sumData += dp;
+				countPoints++;
+			}
+		}
+		
+		return sumData/countPoints;
 	}
 }
