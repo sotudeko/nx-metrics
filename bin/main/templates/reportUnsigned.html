@@ -40,9 +40,9 @@
             </tr>
         </thead>
         <tbody>
-            <tr><td style="font-size: 14px; font-weight: bold;">Onboarded <span th:text="${applicationsOnboardedAvg[0]}"/> applications at an average of <span th:text="${applicationsOnboardedAvg[1]}"/> per week</td></tr>
-            <tr><td style="font-size: 14px; font-weight: bold;">Scanned applications at an average of <span th:text="${numberOfApplicationsScannedAvg[1]}"/> per week</td></tr>
-            <tr><td style="font-size: 14px; font-weight: bold;">Performed a total of <span th:text="${numberOfScansAvg[0]}"/> scans at an average of <span th:text="${numberOfScansAvg[1]}"/> per week</td></tr>
+            <tr><td>Onboarded <span th:text="${applicationsOnboardedAvg[0]}"/> applications at an average of <span th:text="${applicationsOnboardedAvg[1]}"/> per week</td></tr>
+            <tr><td>Scanned applications at an average of <span th:text="${numberOfApplicationsScannedAvg[1]}"/> per week</td></tr>
+            <tr><td>Performed a total of <span th:text="${numberOfScansAvg[0]}"/> scans at an average of <span th:text="${numberOfScansAvg[1]}"/> per week</td></tr>
         </tbody>
     </table>
 
@@ -127,14 +127,14 @@
             </tr>
         </thead>
         <tbody>
-            <tr><td style="font-weight: bold;"> Your fix rate is <span th:text="${fixRate}"/>%</td></tr>
-            <tr><td style="font-weight: bold;"> It took an average of <span th:text="${mttrAvg[0]}"/> days to fix critical violations</td></tr>
-            <tr><td style="font-weight: bold;"> It took an average of <span th:text="${mttrAvg[1]}"/> days to fix severe violations</td></tr>
-            <tr><td style="font-weight: bold;"> It took an average of <span th:text="${mttrAvg[2]}"/> days to fix moderate violations</td></tr>
+            <tr><td> Your fix rate is <span th:text="${fixRate}"/>%</td></tr>
+            <tr><td> It took an average of <span th:text="${mttrAvg[0]}"/> days to fix critical violations</td></tr>
+            <tr><td> It took an average of <span th:text="${mttrAvg[1]}"/> days to fix severe violations</td></tr>
+            <tr><td> It took an average of <span th:text="${mttrAvg[2]}"/> days to fix moderate violations</td></tr>
             <tr><td style="background-color: aliceblue;"></td></tr>
-            <tr><td style="font-weight: bold;"> On average, each application has <span th:text="${openCriticalViolationsAvg}"/> open critical violations</td></tr>
-            <tr><td style="font-weight: bold;"> Most critical application has <span th:text="${mostCriticalApplicationCount}"/> critical violations</td></tr>
-            <tr><td style="font-weight: bold;"> Least critical application has <span th:text="${leastCriticalApplicationCount}"/> critical violations</td></tr>
+            <tr><td> On average, each application has <span th:text="${openCriticalViolationsAvg}"/> open critical violations</td></tr>
+            <tr><td> Most critical application has <span th:text="${mostCriticalApplicationCount}"/> critical violations</td></tr>
+            <tr><td> Least critical application has <span th:text="${leastCriticalApplicationCount}"/> critical violations</td></tr>
 
         </tbody>
     </table>

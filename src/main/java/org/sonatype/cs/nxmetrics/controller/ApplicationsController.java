@@ -12,6 +12,7 @@ import org.sonatype.cs.nxmetrics.model.DbRow;
 import org.sonatype.cs.nxmetrics.model.Mttr;
 import org.sonatype.cs.nxmetrics.service.DataService;
 import org.sonatype.cs.nxmetrics.util.SqlStatement;
+import org.sonatype.cs.nxmetrics.util.TimePeriodService;
 
 @Controller
 public class ApplicationsController {
@@ -21,10 +22,15 @@ public class ApplicationsController {
     @Autowired
     private DataService dataService;
 
+    @Autowired
+    private TimePeriodService timePeriodService;
+
     @GetMapping({ "/applications" })
     public String applications(Model model) {
 
         log.info("In ApplicationsController");
+
+        String latestTimePeriod = timePeriodService.latestPeriod();
 
         List<DbRow> applicationsOnboarded = dataService.runSql(SqlStatement.ApplicationsOnboarded);
         List<DbRow> numberOfScans = dataService.runSql(SqlStatement.NumberOfScans);
@@ -36,13 +42,13 @@ public class ApplicationsController {
 		model.addAttribute("numberOfApplicationsScanned", numberOfApplicationsScanned);
         model.addAttribute("mttr", mttr);
 
-        // String applicationOpenViolations = SqlStatement.ApplicationsOpenViolations + " where time_period_start = '" + latestTimePeriod + "' group by application_name" + " order by 2 desc, 3 desc";
-        // List<DbRow> d = dataService.runSql(applicationOpenViolations);
+        String applicationOpenViolations = SqlStatement.ApplicationsOpenViolations + " where time_period_start = '" + latestTimePeriod + "' group by application_name" + " order by 2 desc, 3 desc";
+        List<DbRow> d = dataService.runSql(applicationOpenViolations);
 
-        // model.addAttribute("mostCriticalApplicationName", d.get(0).getLabel());
-        // model.addAttribute("mostCriticalApplicationCount", d.get(0).getPointA());
-        // model.addAttribute("leastCriticalApplicationName", d.get(d.size()-1).getLabel());
-        // model.addAttribute("leastCriticalApplicationCount", d.get(d.size()-1).getPointA());
+        model.addAttribute("mostCriticalApplicationName", d.get(0).getLabel());
+        model.addAttribute("mostCriticalApplicationCount", d.get(0).getPointA());
+        model.addAttribute("leastCriticalApplicationName", d.get(d.size()-1).getLabel());
+        model.addAttribute("leastCriticalApplicationCount", d.get(d.size()-1).getPointA());
 
         return "reportApplications";
     }
