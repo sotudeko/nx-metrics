@@ -132,9 +132,9 @@
             <tr><td style="font-weight: bold;"> It took an average of <span th:text="${mttrAvg[1]}"/> days to fix severe violations</td></tr>
             <tr><td style="font-weight: bold;"> It took an average of <span th:text="${mttrAvg[2]}"/> days to fix moderate violations</td></tr>
             <tr><td style="background-color: aliceblue;"></td></tr>
-            <tr><td style="font-weight: bold;"> On average, each application has <span th:text="${fixRate}"/> open critical violations</td></tr>
-            <tr><td style="font-weight: bold;"> Most critical application has <span th:text="${fixRate}"/> critical violations</td></tr>
-            <tr><td style="font-weight: bold;"> Least critical application has <span th:text="${fixRate}"/> critical violations</td></tr>
+            <tr><td style="font-weight: bold;"> On average, each application has <span th:text="${openCriticalViolationsAvg}"/> open critical violations</td></tr>
+            <tr><td style="font-weight: bold;"> Most critical application has <span th:text="${mostCriticalApplicationCount}"/> critical violations</td></tr>
+            <tr><td style="font-weight: bold;"> Least critical application has <span th:text="${leastCriticalApplicationCount}"/> critical violations</td></tr>
 
         </tbody>
     </table>

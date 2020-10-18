@@ -36,6 +36,14 @@ public class ApplicationsController {
 		model.addAttribute("numberOfApplicationsScanned", numberOfApplicationsScanned);
         model.addAttribute("mttr", mttr);
 
+        // String applicationOpenViolations = SqlStatement.ApplicationsOpenViolations + " where time_period_start = '" + latestTimePeriod + "' group by application_name" + " order by 2 desc, 3 desc";
+        // List<DbRow> d = dataService.runSql(applicationOpenViolations);
+
+        // model.addAttribute("mostCriticalApplicationName", d.get(0).getLabel());
+        // model.addAttribute("mostCriticalApplicationCount", d.get(0).getPointA());
+        // model.addAttribute("leastCriticalApplicationName", d.get(d.size()-1).getLabel());
+        // model.addAttribute("leastCriticalApplicationCount", d.get(d.size()-1).getPointA());
+
         return "reportApplications";
     }
 }

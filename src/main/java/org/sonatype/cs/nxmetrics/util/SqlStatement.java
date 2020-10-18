@@ -120,6 +120,12 @@ public class SqlStatement {
 										"from metric " +
 										" order by 1";
 
+	public static String ApplicationsOpenViolations = "select  distinct application_name as label, " + 
+										"sum(OPEN_COUNT_AT_TIME_PERIOD_END_SECURITY_CRITICAL) + sum(OPEN_COUNT_AT_TIME_PERIOD_END_LICENSE_CRITICAL) as pointA, " +
+										"sum(OPEN_COUNT_AT_TIME_PERIOD_END_SECURITY_SEVERE)   + sum(OPEN_COUNT_AT_TIME_PERIOD_END_LICENSE_SEVERE)as pointB, " +
+										"sum(OPEN_COUNT_AT_TIME_PERIOD_END_SECURITY_MODERATE) + sum(OPEN_COUNT_AT_TIME_PERIOD_END_LICENSE_MODERATE) as pointC, " +
+										"from metric";
+
 	public static String DiscoveredSecurityViolationsTotals = "select sum(discovered_count_security_critical) as pointA, "  +
 																"sum(discovered_count_security_severe) as pointB, " +
 																"sum(discovered_count_security_moderate) as pointC " +

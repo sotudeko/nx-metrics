@@ -31,7 +31,7 @@ public class UnsignedController {
         log.info("In UnsignedController");
 
         String latestTimePeriod = timePeriodService.latestPeriod();
-	    // List<DataPoint> applicationViolationsData = sqlService.executeSQLMetrics(sqlService.AddWhereClauseAppOpenViolations(SQLStatement.ApplicationsOpenViolations, latestTimePeriod, "APPLICATION_NAME"));
+	    //List<DataPoint> applicationViolationsData = sqlService.executeSQLMetrics(sqlService.AddWhereClauseAppOpenViolations(SQLStatement.ApplicationsOpenViolations, latestTimePeriod, "APPLICATION_NAME"));
 
         List<DbRow> applicationsOnboarded = dataService.runSql(SqlStatement.ApplicationsOnboarded);
         List<DbRow> numberOfScans = dataService.runSql(SqlStatement.NumberOfScans);
@@ -83,6 +83,14 @@ public class UnsignedController {
         model.addAttribute("fixRate", String.format("%.02f", fixRate));
 
         model.addAttribute("mttrAvg", this.MttrAvg());
+
+        String applicationOpenViolations = SqlStatement.ApplicationsOpenViolations + " where time_period_start = '" + latestTimePeriod + "' group by application_name" + " order by 2 desc, 3 desc";
+        List<DbRow> aov = dataService.runSql(applicationOpenViolations);
+
+        model.addAttribute("mostCriticalApplicationCount", aov.get(0).getPointA());
+        model.addAttribute("leastCriticalApplicationCount", aov.get(aov.size()-1).getPointA());
+
+        model.addAttribute("openCriticalViolationsAvg", this.sumAndAveragePointA(aov)[1]);
 
         return "reportUnsigned";
     }
