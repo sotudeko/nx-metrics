@@ -80,7 +80,7 @@ public class UnsignedController {
 
         float fixRate = (((float)(fixedWaived)/discovered) * 100);
 
-        model.addAttribute("fixRate", String.format("%.02f", fixRate));
+        model.addAttribute("fixRate", String.format("%.0f", fixRate));
 
         model.addAttribute("mttrAvg", this.MttrAvg());
 
