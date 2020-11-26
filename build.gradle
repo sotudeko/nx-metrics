@@ -33,3 +33,12 @@ dependencies {
 test {
 	useJUnitPlatform()
 }
+
+nexusIQScan {
+  username = 'admin'
+  password = 'admin123'
+  serverUrl = 'http://localhost:8070'
+  applicationId = 'nxm-app'
+  stage = 'build'  
+  allConfigurations = true 
+}
